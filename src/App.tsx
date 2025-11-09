@@ -1,13 +1,16 @@
 import "./App.css";
 import { Outlet } from "@tanstack/react-router";
-import { Header } from "./components/Header.tsx";
+import { Sidebar } from "./components/Sidebar.tsx";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Outlet />
-    </>
+    <div className="drawer drawer-open">
+      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content">
+        <Outlet />
+      </div>
+      <Sidebar />
+    </div>
   );
 }
 
