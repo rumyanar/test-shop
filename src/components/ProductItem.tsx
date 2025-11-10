@@ -1,11 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { Product } from "../hooks/useProducts.ts";
 
 export const ProductItem = ({ product }: { product: Product }) => {
   return (
     <>
-      <figure className="px-4 pt-4 h-64 bg-white dark:bg-gray-700">
+      <figure className="relative px-4 pt-4 h-64 bg-white dark:bg-gray-700 group">
+        {/* Hover overlay with Add to Basket button */}
+        {product.inStock && (
+          <div className="absolute inset-0 bg-black/20 flex items-baseline-last justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
+            <button className="btn btn-primary gap-2 mb-4">
+              <FontAwesomeIcon icon={faShoppingCart} />
+              Add to Cart
+            </button>
+          </div>
+        )}
         <img
           src={product.thumbnail}
           alt={product.title}
