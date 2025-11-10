@@ -9,7 +9,8 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { Front } from "./pages/Front.tsx";
-import { Products } from "./pages/Products.tsx";
+import { Products, ProductSearch } from "./pages/Products.tsx";
+import { SortField, SortOrder } from "./hooks/useProducts.ts";
 
 // Create a root route.
 const rootRoute = createRootRoute({ component: App });
@@ -17,7 +18,24 @@ const rootRoute = createRootRoute({ component: App });
 // List of routes. See RouteOptions type.
 const routePaths = [
   { path: "/", component: Front },
-  { path: "/products", component: Products },
+  {
+    path: "/products",
+    component: Products,
+    validateSearch: (search: Record<string, unknown>): ProductSearch => {
+      // validate and parse the search params into a typed state
+      return {
+        page: Number(search.page) || undefined,
+        limit: Number(search.limit) || undefined,
+        search: (search.search as string) || undefined,
+        minPrice: Number(search.minPrice) || undefined,
+        maxPrice: Number(search.maxPrice) || undefined,
+        inStock:
+          search.inStock !== undefined ? Boolean(search.inStock) : undefined,
+        sortField: (search.sortField as SortField) || undefined,
+        sortOrder: (search.sortOrder as SortOrder) || undefined,
+      };
+    },
+  },
 ];
 
 const routes = routePaths.map((p) =>

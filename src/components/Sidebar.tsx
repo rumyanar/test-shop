@@ -24,7 +24,7 @@ export const Sidebar = () => {
               <li key={linkItem.title}>
                 <Link
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right [&.active]:bg-base-300"
-                  data-tip="Homepage"
+                  data-tip={linkItem.title}
                   to={linkItem.link}
                 >
                   <FontAwesomeIcon icon={linkItem.icon} />
