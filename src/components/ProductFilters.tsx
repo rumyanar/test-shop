@@ -3,7 +3,7 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useDebounce } from "react-use";
-import { ProductSearch } from "../pages/Products.tsx";
+import { ProductSearch } from "../pages/ProductsList.tsx";
 
 export const ProductFilters = () => {
   // Get URL search params

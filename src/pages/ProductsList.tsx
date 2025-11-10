@@ -1,8 +1,6 @@
 import { usePageTitle } from "../lib.ts";
 import { useRef } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
 import {
   ProductSort,
   SortField,
@@ -13,6 +11,7 @@ import { Alert } from "../components/Alert.tsx";
 import { Pager } from "../components/Pager.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProductFilters } from "../components/ProductFilters.tsx";
+import { ProductItem } from "../components/ProductItem.tsx";
 
 export interface ProductSearch {
   page?: number;
@@ -25,7 +24,7 @@ export interface ProductSearch {
   sortOrder?: string;
 }
 
-export const Products = () => {
+export const ProductsList = () => {
   usePageTitle({ section: "Products" });
   const itemsPerPage = 12;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +64,7 @@ export const Products = () => {
 
   // Handle page change
   const handlePageChange = (newPage: number) => {
-    // Scroll to top of the list
+    // Scroll to the top of the list
     window.scrollTo({
       top: containerRef.current?.offsetTop,
       behavior: "smooth",
@@ -150,55 +149,7 @@ export const Products = () => {
                     whileHover={{ scale: 1.03, y: -5 }}
                     className="card bg-base-100 shadow-xl hover:shadow-2xl"
                   >
-                    <figure className="px-4 pt-4 h-64 bg-white dark:bg-gray-700">
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className="h-full object-contain"
-                      />
-                    </figure>
-                    <div className="card-body">
-                      <div className="badge badge-secondary mb-2">
-                        {product.category}
-                      </div>
-                      <h3 className="card-title text-base line-clamp-2">
-                        {product.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 line-clamp-3">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <div className="flex items-center">
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            className="text-yellow-500 mr-1"
-                          />
-                          <span className="text-sm">
-                            {product.rating.rate.toFixed(1)}
-                          </span>
-                        </div>
-                        <span className="text-xs text-gray-500">
-                          ({product.rating.count} reviews)
-                        </span>
-                      </div>
-                      <div className="card-actions justify-between items-center mt-4">
-                        <div className="text-2xl font-bold text-primary">
-                          ${product.price.toFixed(2)}
-                        </div>
-                        <div>
-                          {(product as typeof product & { inStock: boolean })
-                            .inStock ? (
-                            <span className="badge badge-success">
-                              In Stock
-                            </span>
-                          ) : (
-                            <span className="badge badge-error">
-                              Out of Stock
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    <ProductItem product={product} />
                   </motion.div>
                 ))}
               </AnimatePresence>

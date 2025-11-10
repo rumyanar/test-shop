@@ -9,7 +9,7 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { Front } from "./pages/Front.tsx";
-import { Products, ProductSearch } from "./pages/Products.tsx";
+import { ProductSearch, ProductsList } from "./pages/ProductsList.tsx";
 import { SortField, SortOrder } from "./hooks/useProducts.ts";
 
 // Create a root route.
@@ -20,7 +20,7 @@ const routePaths = [
   { path: "/", component: Front },
   {
     path: "/products",
-    component: Products,
+    component: ProductsList,
     validateSearch: (search: Record<string, unknown>): ProductSearch => {
       // validate and parse the search params into a typed state
       return {

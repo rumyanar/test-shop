@@ -4,7 +4,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { ProductSearch } from "../pages/Products.tsx";
+import { ProductSearch } from "../pages/ProductsList.tsx";
 
 export interface PaginationProps {
   totalPages: number;
