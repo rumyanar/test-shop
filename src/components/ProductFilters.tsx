@@ -4,12 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useDebounce } from "react-use";
 import { ProductSearch } from "../pages/ProductsList.tsx";
+import { useCategories } from "../hooks/useProducts.ts";
 
 export const ProductFilters = () => {
   // Get URL search params
   const searchParams: ProductSearch = useSearch({ from: "/products" });
 
   const navigate = useNavigate({ from: "/products" });
+
+  // Fetch available categories
+  const { categories } = useCategories();
 
   // Temporary filter inputs (before applying)
   const [searchInput, setSearchInput] = useState(searchParams.search || "");
@@ -65,6 +69,17 @@ export const ProductFilters = () => {
     });
   };
 
+  // Handle category filter change
+  const handleCategoryFilterChange = (value: string | null) => {
+    return navigate({
+      search: {
+        ...searchParams,
+        category: value !== null ? value : undefined,
+        page: undefined,
+      },
+    });
+  };
+
   return (
     <div className="card bg-base-100 shadow-md mb-6">
       <div className="card-body">
@@ -73,7 +88,7 @@ export const ProductFilters = () => {
           Filters
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Search */}
           <div className="form-control">
             <label className="label">
@@ -90,6 +105,30 @@ export const ProductFilters = () => {
             </div>
           </div>
 
+          {/* Category */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Category</span>
+            </label>
+            <select
+              className="select select-bordered w-full"
+              value={searchParams.category || "all"}
+              onChange={(e) => {
+                const value = e.target.value;
+                return handleCategoryFilterChange(
+                  value === "all" ? null : value,
+                );
+              }}
+            >
+              <option value="all">All Categories</option>
+              {categories.map((category) => (
+                <option key={category.slug} value={category.slug}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Min Price */}
           <div className="form-control">
             <label className="label">
@@ -102,7 +141,7 @@ export const ProductFilters = () => {
               value={minPriceInput}
               onChange={(e) => setMinPriceInput(e.target.value)}
               min="0"
-              step="0.01"
+              step="10"
             />
           </div>
 
@@ -118,7 +157,7 @@ export const ProductFilters = () => {
               value={maxPriceInput}
               onChange={(e) => setMaxPriceInput(e.target.value)}
               min="0"
-              step="0.01"
+              step="10"
             />
           </div>
 

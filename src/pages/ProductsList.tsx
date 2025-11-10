@@ -20,6 +20,7 @@ export interface ProductSearch {
   minPrice?: number;
   maxPrice?: number;
   inStock?: boolean;
+  category?: string;
   sortField?: string;
   sortOrder?: string;
 }
@@ -52,6 +53,7 @@ export const ProductsList = () => {
       minPrice: searchParams.minPrice || null,
       maxPrice: searchParams.maxPrice || null,
       inStock: searchParams.inStock !== undefined ? searchParams.inStock : null,
+      category: searchParams.category || null,
     },
     sort,
   });

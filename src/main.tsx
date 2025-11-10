@@ -31,6 +31,7 @@ const routePaths = [
         maxPrice: Number(search.maxPrice) || undefined,
         inStock:
           search.inStock !== undefined ? Boolean(search.inStock) : undefined,
+        category: (search.category as string) || undefined,
         sortField: (search.sortField as SortField) || undefined,
         sortOrder: (search.sortOrder as SortOrder) || undefined,
       };

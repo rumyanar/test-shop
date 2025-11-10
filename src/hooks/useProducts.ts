@@ -37,6 +37,7 @@ export interface ProductFilters {
   minPrice: number | null;
   maxPrice: number | null;
   inStock: boolean | null; // null = all, true = in stock, false = out of stock
+  category: string | null; // null = all categories
 }
 
 export type SortField = "title" | "price";
@@ -61,6 +62,34 @@ export interface UseProductsResult {
   totalProducts: number;
   totalPages: number;
 }
+
+// Category type from DummyJSON API
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
+
+// Hook to get all unique categories
+export const useCategories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/products/categories")
+      .then((response) => response.json())
+      .then((data: Category[]) => {
+        setCategories(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setCategories([]);
+        setLoading(false);
+      });
+  }, []);
+
+  return { categories, loading };
+};
 
 export const useProducts = ({
   page,
@@ -120,10 +149,12 @@ export const useProducts = ({
     }
 
     if (filters.inStock !== null) {
+      filtered = filtered.filter((product) => product.inStock === filters.inStock);
+    }
+
+    if (filters.category !== null) {
       filtered = filtered.filter(
-        (product) =>
-          (product as Product & { inStock: boolean }).inStock ===
-          filters.inStock,
+        (product) => product.category.toLowerCase() === filters.category!.toLowerCase(),
       );
     }
 
