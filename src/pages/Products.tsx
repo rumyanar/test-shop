@@ -1,5 +1,5 @@
 import { usePageTitle } from "../lib.ts";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +32,7 @@ export interface ProductSearch {
 export const Products = () => {
   usePageTitle({ section: "Products" });
   const itemsPerPage = 12;
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Get URL search params
   const searchParams: ProductSearch = useSearch({ from: "/products" });
@@ -118,8 +119,14 @@ export const Products = () => {
     });
 
   // Handle page change
-  const handlePageChange = (newPage: number) =>
-    navigate({ search: { ...searchParams, page: newPage } });
+  const handlePageChange = (newPage: number) => {
+    // Scroll to top of the list
+    window.scrollTo({
+      top: containerRef.current?.offsetTop,
+      behavior: "smooth",
+    });
+    return navigate({ search: { ...searchParams, page: newPage } });
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -272,6 +279,7 @@ export const Products = () => {
             </div>
           ) : (
             <motion.div
+              ref={containerRef}
               layout
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
             >
