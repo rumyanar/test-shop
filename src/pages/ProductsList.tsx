@@ -80,7 +80,10 @@ export const ProductsList = () => {
       <ProductFilters />
 
       {/* Sort and Results Info */}
-      <div className="flex flex-row justify-between items-start md:items-center mb-4 gap-4">
+      <div
+        ref={containerRef}
+        className="flex flex-row justify-between items-start md:items-center mb-4 gap-4"
+      >
         <motion.div
           key={`results-${totalProducts}`}
           initial={{ opacity: 0, x: -10 }}
@@ -126,6 +129,13 @@ export const ProductsList = () => {
         </div>
       )}
 
+      {/* Pagination - Top */}
+      {!loading && !error && products.length > 0 && (
+        <div className="mb-6">
+          <Pager totalPages={totalPages} onPageChange={handlePageChange} />
+        </div>
+      )}
+
       {/* Products Grid */}
       {!loading && !error && (
         <>
@@ -137,7 +147,6 @@ export const ProductsList = () => {
             </div>
           ) : (
             <motion.div
-              ref={containerRef}
               layout
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
             >
