@@ -7,14 +7,33 @@ export const Front = () => {
   usePageTitle({});
   const [loggedIn, setLoggedIn] = useState(false);
 
-  console.log(loggedIn);
   return (
     <>
-      <div className="card my-10 shadow-xl md:mx-auto md:my-12">
-        <div className="card-body text-center md:mx-auto md:mb-12">
-          <h1 className="font-heading leading-tighter text-heading text-3xl font-bold tracking-tighter md:text-5xl">
-            Welcome to {siteTitle}
-          </h1>
+      {/* Hero Section */}
+      <div className="hero bg-gradient-to-r from-primary/5 to-primary/20 min-h-[500px]">
+        <div className="hero-content flex-col lg:flex-row-reverse gap-8 max-w-7xl">
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
+            className="max-w-sm rounded-lg shadow-2xl"
+            alt="Shopping"
+          />
+          <div>
+            <h1 className="text-5xl font-bold">Discover Amazing Products</h1>
+            <p className="py-6 text-lg">
+              Welcome to {siteTitle}! Explore our curated collection of premium
+              products at unbeatable prices. From electronics to fashion, find
+              everything you need in one place. Start shopping today and
+              experience the difference.
+            </p>
+            <div className="flex gap-4">
+              <Link to="/products" className="btn btn-primary btn-lg">
+                Shop Now
+              </Link>
+              <Link to="/products" className="btn btn-outline btn-lg">
+                Browse Collection
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
