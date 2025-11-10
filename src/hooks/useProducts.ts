@@ -112,7 +112,7 @@ export const useProducts = ({
         // Transform DummyJSON products to our Product format
         const products: Product[] = data.products.map((product) => ({
           ...product,
-          inStock: product.stock > 0,
+          inStock: product.stock > 5,
         }));
 
         setAllProducts(products);
@@ -149,12 +149,15 @@ export const useProducts = ({
     }
 
     if (filters.inStock !== null) {
-      filtered = filtered.filter((product) => product.inStock === filters.inStock);
+      filtered = filtered.filter(
+        (product) => product.inStock === filters.inStock,
+      );
     }
 
     if (filters.category !== null) {
       filtered = filtered.filter(
-        (product) => product.category.toLowerCase() === filters.category!.toLowerCase(),
+        (product) =>
+          product.category.toLowerCase() === filters.category!.toLowerCase(),
       );
     }
 
