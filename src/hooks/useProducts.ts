@@ -1,16 +1,35 @@
 import { useEffect, useMemo, useState } from "react";
 
+// Product interface for DummyJSON API
 export interface Product {
   id: number;
   title: string;
   price: number;
   description: string;
   category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  thumbnail: string;
+  rating: number;
+  brand?: string;
+  stock: number;
+  inStock: boolean;
+}
+
+// DummyJSON API response type
+interface DummyJSONResponse {
+  products: Array<{
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    thumbnail: string;
+    rating: number;
+    brand?: string;
+    stock: number;
+  }>;
+  total: number;
+  skip: number;
+  limit: number;
 }
 
 export interface ProductFilters {
@@ -53,31 +72,27 @@ export const useProducts = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch all products from the API
+  // Fetch products from DummyJSON API
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data = await response.json();
+    setLoading(true);
+    setError(null);
 
-        // Add a mock "inStock" property to each product
-        // Since the API doesn't provide stock status, we'll simulate it
-        const productsWithStock = data.map((product: Product) => ({
+    fetch("https://dummyjson.com/products?limit=0")
+      .then((response) => response.json())
+      .then((data: DummyJSONResponse) => {
+        // Transform DummyJSON products to our Product format
+        const products: Product[] = data.products.map((product) => ({
           ...product,
-          inStock: product.id % 3 !== 0, // Mock: every 3rd product is out of stock
+          inStock: product.stock > 0,
         }));
 
-        setAllProducts(productsWithStock);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
+        setAllProducts(products);
         setLoading(false);
-      }
-    };
-
-    fetchProducts();
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setLoading(false);
+      });
   }, []);
 
   // Filter, sort, and paginate products
