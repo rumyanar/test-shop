@@ -18,7 +18,10 @@ export const Sidebar = () => {
       <div className="is-drawer-close:w-14 is-drawer-open:w-fit md:is-drawer-open:w-64 bg-base-200 flex flex-col items-start min-h-full">
         {/* Sidebar content here */}
 
-        <ul className="menu w-full grow">
+        <Link to="/" className="  w-full mt-3 pl-2">
+          <img src="/img/logo.png" alt="logo" className="h-10" />
+        </Link>
+        <ul className="menu w-full grow mt-5">
           {pages.map((linkItem) => {
             return (
               <li key={linkItem.title}>

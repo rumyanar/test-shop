@@ -2,7 +2,11 @@ import { useEffect } from "react";
 
 export const siteTitle = "Pixel Shop";
 
-export const usePageTitle = ({ section }: { section?: string }): void => {
+export const extractTitle = () => {
+  return document.title.split(" - ")[0];
+};
+
+export const usePageTitle = ({ section }: { section?: string }) => {
   const title = section ? `${section} - ${siteTitle}` : siteTitle;
   useEffect(() => {
     document.title = title;
