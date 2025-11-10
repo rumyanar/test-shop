@@ -37,35 +37,37 @@ export const Front = () => {
         </div>
       </div>
 
-      <div className="card my-10 shadow-xl md:mx-auto md:my-12">
-        <div className="card-body text-center md:mx-auto md:mb-12">
-          <div className="pl-4 text-center lg:text-left">
-            {!loggedIn ? (
-              <>
-                <h1 className="text-2xl font-bold">Login now!</h1>
-                <p className="py-6 text-xl">
-                  If you already have an account, please log in here.
+      {/* Login Section */}
+      <div className="container mx-auto px-4 py-6">
+        <div className="card lg:card-side max-lg:flex-col-reverse bg-base-100 shadow-md mb-6">
+          {!loggedIn ? (
+            <>
+              <div className="max-w-md mx-auto w-full p-6" id="login">
+                <LoginForm onSuccess={() => setLoggedIn(true)} />
+              </div>
+              <div className="card-body">
+                <h2 className="card-title text-2xl mb-4">Login now!</h2>
+                <p className="text-base mb-6">
+                  If you already have an account, please log in here. Access
+                  your personalized dashboard and manage your orders.
                 </p>
-                <div
-                  className="card bg-base-100 w-full max-w-md shrink-0 p-4 shadow-2xl"
-                  id="login"
-                >
-                  <LoginForm onSuccess={() => setLoggedIn(true)} />
-                </div>
-              </>
-            ) : (
-              <>
-                <h1 className="text-2xl font-bold">Login successful</h1>
-                <p className="py-6 text-xl">
-                  Thank you for logging in. Please feel free to explore the
-                  site.
-                </p>
-                <Link to="/products" className="btn btn-primary">
-                  Explore products
-                </Link>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          ) : (
+            <div className="card-body text-center py-8">
+              <div className="text-6xl mb-4">✓</div>
+              <h2 className="card-title text-2xl justify-center mb-4">
+                Login successful!
+              </h2>
+              <p className="text-base mb-6">
+                Thank you for logging in. Please feel free to explore the site
+                and discover our amazing collection of products.
+              </p>
+              <Link to="/products" className="btn btn-primary btn-lg">
+                Explore Products
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>
