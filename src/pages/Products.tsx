@@ -16,6 +16,7 @@ import {
 } from "../hooks/useProducts.ts";
 import { Alert } from "../components/Alert.tsx";
 import { useDebounce } from "react-use";
+import { AnimatePresence, motion } from "framer-motion";
 
 export interface ProductSearch {
   page?: number;
@@ -74,6 +75,7 @@ export const Products = () => {
       return navigate({
         search: {
           ...searchParams,
+          page: undefined,
           search: searchInput || undefined,
           minPrice: minPriceInput || undefined,
           maxPrice: maxPriceInput || undefined,
@@ -104,6 +106,7 @@ export const Products = () => {
       search: {
         ...searchParams,
         inStock: value !== null ? value : undefined,
+        page: undefined,
       },
     });
   };
@@ -213,9 +216,15 @@ export const Products = () => {
 
       {/* Sort and Results Info */}
       <div className="flex flex-row justify-between items-start md:items-center mb-4 gap-4">
-        <div className="text-sm my-auto">
+        <motion.div
+          key={`results-${totalProducts}`}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-sm my-auto"
+        >
           Showing {products.length} of {totalProducts} products
-        </div>
+        </motion.div>
 
         <div className="flex gap-2 items-center">
           <span className="text-sm mr-2 text-nowrap">Sort by:</span>
@@ -262,62 +271,73 @@ export const Products = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  className="card transition duration-500 hover:scale-102 bg-base-100 shadow-xl hover:shadow-2xl"
-                >
-                  <figure className="px-4 pt-4 h-64 bg-white dark:bg-gray-700">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="h-full object-contain"
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <div className="badge badge-secondary mb-2">
-                      {product.category}
-                    </div>
-                    <h3 className="card-title text-base line-clamp-2">
-                      {product.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 line-clamp-3">
-                      {product.description}
-                    </p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <div className="flex items-center">
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          className="text-yellow-500 mr-1"
-                        />
-                        <span className="text-sm">
-                          {product.rating.rate.toFixed(1)}
+            <motion.div
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+            >
+              <AnimatePresence mode="popLayout">
+                {products.map((product) => (
+                  <motion.div
+                    key={product.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    whileHover={{ scale: 1.03, y: -5 }}
+                    className="card bg-base-100 shadow-xl hover:shadow-2xl"
+                  >
+                    <figure className="px-4 pt-4 h-64 bg-white dark:bg-gray-700">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="h-full object-contain"
+                      />
+                    </figure>
+                    <div className="card-body">
+                      <div className="badge badge-secondary mb-2">
+                        {product.category}
+                      </div>
+                      <h3 className="card-title text-base line-clamp-2">
+                        {product.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 line-clamp-3">
+                        {product.description}
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <div className="flex items-center">
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            className="text-yellow-500 mr-1"
+                          />
+                          <span className="text-sm">
+                            {product.rating.rate.toFixed(1)}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          ({product.rating.count} reviews)
                         </span>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        ({product.rating.count} reviews)
-                      </span>
-                    </div>
-                    <div className="card-actions justify-between items-center mt-4">
-                      <div className="text-2xl font-bold text-primary">
-                        ${product.price.toFixed(2)}
+                      <div className="card-actions justify-between items-center mt-4">
+                        <div className="text-2xl font-bold text-primary">
+                          ${product.price.toFixed(2)}
+                        </div>
+                        <div>
+                          {(product as typeof product & { inStock: boolean })
+                            .inStock ? (
+                            <span className="badge badge-success">
+                              In Stock
+                            </span>
+                          ) : (
+                            <span className="badge badge-error">
+                              Out of Stock
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        {(product as typeof product & { inStock: boolean })
-                          .inStock ? (
-                          <span className="badge badge-success">In Stock</span>
-                        ) : (
-                          <span className="badge badge-error">
-                            Out of Stock
-                          </span>
-                        )}
-                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
           )}
 
           {/* Pagination */}
@@ -351,11 +371,7 @@ export const Products = () => {
                         </button>
                       );
                     } else if (pageNum === page - 2 || pageNum === page + 2) {
-                      return (
-                        <span key={pageNum} className="px-2 py-2">
-                          ...
-                        </span>
-                      );
+                      return <span className="px-2 py-2">...</span>;
                     }
                     return null;
                   },

@@ -9,6 +9,7 @@ function App() {
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <Header />
+        {/*Page content from the router*/}
         <Outlet />
       </div>
       <Sidebar />
