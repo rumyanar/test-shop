@@ -14,11 +14,13 @@ export const Front = () => {
         <div className="hero-content flex-col lg:flex-row-reverse gap-8 max-w-7xl">
           <img
             src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-            className="max-w-sm rounded-lg shadow-2xl"
+            className="max-w-sm max-sm:w-full rounded-lg shadow-2xl"
             alt="Shopping"
           />
           <div>
-            <h1 className="text-5xl font-bold">Discover Amazing Products</h1>
+            <h1 className="text-5xl max-sm:text-4xl font-bold">
+              Discover Amazing Products
+            </h1>
             <p className="py-6 text-lg">
               Welcome to {siteTitle}! Explore our curated collection of premium
               products at unbeatable prices. From electronics to fashion, find
@@ -30,7 +32,7 @@ export const Front = () => {
                 Shop Now
               </Link>
               <Link to="/products" className="btn btn-outline btn-lg">
-                Browse Collection
+                Browse All
               </Link>
             </div>
           </div>

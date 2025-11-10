@@ -2,6 +2,7 @@ import "./App.css";
 import { Outlet } from "@tanstack/react-router";
 import { Sidebar } from "./components/Sidebar.tsx";
 import { Header } from "./components/Header.tsx";
+import { FooterNav } from "./components/FooterNav.tsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Outlet />
       </div>
       <Sidebar />
+      <FooterNav />
     </div>
   );
 }

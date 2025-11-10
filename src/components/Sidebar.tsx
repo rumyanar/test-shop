@@ -1,20 +1,10 @@
-import {
-  faHouse,
-  faList,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@tanstack/react-router";
-
-type linkType = { title: string; link: string; icon: IconDefinition };
-const pages: linkType[] = [
-  { title: "Home", link: "/", icon: faHouse },
-  { title: "Products", link: "/products", icon: faList },
-];
+import { pages } from "../lib.ts";
 
 export const Sidebar = () => {
   return (
-    <div className="drawer-side is-drawer-close:overflow-visible">
+    <div className="drawer-side is-drawer-close:overflow-visible hidden sm:block">
       <div className="is-drawer-close:w-14 is-drawer-open:w-fit md:is-drawer-open:w-64 bg-base-200 flex flex-col items-start min-h-full">
         {/* Sidebar content here */}
 

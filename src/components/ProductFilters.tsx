@@ -82,7 +82,7 @@ export const ProductFilters = () => {
 
   return (
     <div className="card bg-base-100 shadow-md mb-6">
-      <div className="card-body">
+      <div className="card-body max-sm:px-2">
         <h2 className="card-title">
           <FontAwesomeIcon icon={faFilter} className="mr-2" />
           Filters

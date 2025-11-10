@@ -25,12 +25,12 @@ export const Pager = ({ totalPages, onPageChange }: PaginationProps) => {
   return (
     <div className="flex justify-center items-center gap-2">
       <button
-        className="btn btn-outline"
+        className="btn btn-outline btn-sm"
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
       >
         <FontAwesomeIcon icon={faChevronLeft} />
-        Previous
+        Prev
       </button>
 
       <div className="flex gap-1">
@@ -44,7 +44,7 @@ export const Pager = ({ totalPages, onPageChange }: PaginationProps) => {
             return (
               <button
                 key={pageNum}
-                className={`btn ${pageNum === page ? "btn-primary" : "btn-outline"}`}
+                className={`btn btn-sm my-auto ${pageNum === page ? "btn-primary" : "btn-outline"}`}
                 onClick={() => onPageChange(pageNum)}
               >
                 {pageNum}
@@ -62,7 +62,7 @@ export const Pager = ({ totalPages, onPageChange }: PaginationProps) => {
       </div>
 
       <button
-        className="btn btn-outline"
+        className="btn btn-sm btn-outline"
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
       >
