@@ -1,73 +1,28 @@
-# React + TypeScript + Vite
+# Work notes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The site uses React + Vite setup with Daisy UI and TailwindCSS for easy styling.
 
-Currently, two official plugins are available:
+## Data retrieval
+At first, I considered [fakeapi.net](https://fakeapi.net) as it fits the requirements for filtering, sorting and product count, but it does not contain real product images, so I chose [fakestoreapi.com](https://fakestoreapi.com) instead, even though it has only 20 items. Then I replaced it with data from [dummyjson.com](https://dummyjson.com).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Site navigation
+Application state (filters, sorting, pagination) stored in URL search parameters with type-safe validation via TanStack Router.
 
-## React Compiler
+## Animations
+Used Framer Motion package for easy animations on the product list.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Video
 
-## Expanding the ESLint configuration
+[![Watch the video](https://img.youtube.com/vi/A7tn3YOCdfg/0.jpg)](https://www.youtube.com/watch?v=A7tn3YOCdfg)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+https://www.youtube.com/watch?v=A7tn3YOCdfg
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The project uses pnpm as a package manager. To install dependencies and run the project, use the following commands:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm run dev
 ```
